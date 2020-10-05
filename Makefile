@@ -1,7 +1,7 @@
 # File:   Makefile
-# Author: M. P. Hayes, UCECE
-# Date:   12 Sep 2010
-# Descr:  Makefile for game
+# Author: Samuel Burtenshaw, Zachary Kaye
+# Date:   5/10/2020
+# Descr:  Makefile for Paper, Scissors, Rock
 
 # Definitions.
 CC = avr-gcc
@@ -16,10 +16,10 @@ all: game.out
 
 
 # Compile: create object files from C source files.
-game.o: game.c ../../drivers/avr/system.h
+game.o: game.c ../../drivers/avr/system.h ../../utils/tinygl.h ../../drivers/navswitch.h ../../drivers/avr/ir_uart.h ../../utils/font.h ../../utils/pacer.h
 	$(CC) -c $(CFLAGS) $< -o $@
 
-system.o: ../../drivers/avr/system.c ../../drivers/avr/system.h
+system.o: ../../drivers/avr/system.c ../../drivers/avr/system.h 
 	$(CC) -c $(CFLAGS) $< -o $@
 
 
