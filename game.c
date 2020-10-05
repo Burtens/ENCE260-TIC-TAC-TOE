@@ -11,16 +11,22 @@
 #include "task.h"
 #include "navswitch.h"
 #include "../fonts/font5x7_1.h"
+#include "ir_uart.h"
 #include "pio.h"
 
 // Rates
-enum {DISPLAY_TASK_RATE = 300};
-enum {NAVSWITCH_TASK_RATE = 20};
-enum {GAME_TASK_RATE = 100};
+#define DISPLAY_TASK_RATE 300
+#define NAVSWITCH_TASK_RATE 20
+#define GAME_TASK_RATE 100
 
-typedef enum {STATE_INIT, STATE_SELECTION,
-              STATE_PLAYING, STATE_OVER, 
-              STATE_READY} state_t;
+// Choices
+static char choices[3] = {'P', 'S', 'R'};
+static uint8_t curr_choice = 0;
+static uint8_t num_choices = 3;
+
+typedef enum {STATE_INIT, STATE_READY, 
+              STATE_SELECTION, STATE_PLAYING, 
+              STATE_OVER, } state_t;
               
 static state_t state = STATE_INIT;
 
@@ -38,7 +44,15 @@ static void display_task (void *data)
         init = 1;
     }
 }
-    
+
+void display_choice (char choice)
+{
+    char buffer[2];
+    buffer[0] = choice;
+    buffer[1] = '\0';
+    tinygl_text (buffer);
+}
+
 static void navswitch_task (void *data)
 {
     static bool init = 0;
@@ -54,20 +68,35 @@ static void navswitch_task (void *data)
     if (navswitch_push_event_p (NAVSWITCH_NORTH)) {
         switch (state)
         {
-            
+        case STATE_SELECTION:
+            curr_choice = (curr_choice + 1) % num_choices; // Wrap Around
+            display_choice (choice[curr_choice]);
+            break;
         }
     }
     
     if (navswitch_push_event_p (NAVSWITCH_SOUTH)) {
         switch (state)
         {
-            
+        case STATE_SELECTION:
+            if (choice != 0)
+            { 
+                choice = (choice - 1) % num_choices;
+            } else {
+                choice = 2;
+            }
+            display_choice (choice[curr_choice]);
+            break;
         }
     }
     
     if (navswitch_push_event_p (NAVSWITCH_PUSH)) {
         switch (state)
         {
+        case STATE_READY:
+            state = STATE_SELECTION;
+            break;
+        case STATE_SELECTION:
             
         }
     }
@@ -80,7 +109,7 @@ static void game_task (void *data)
     switch (state) 
     {
     case STATE_INIT:
-        tinygl_text ("  PAPER, SCISSORS, ROCK");
+        tinygl_text ("  PAPER, SCISSORS, ROCK READY");
         state = STATE_READY;
         break;
     }
