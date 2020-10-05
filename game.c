@@ -24,8 +24,8 @@ static char choices[3] = {'P', 'S', 'R'};
 static uint8_t curr_choice = 0;
 static uint8_t num_choices = 3;
 
-typedef enum {STATE_INIT, STATE_READY, 
-              STATE_SELECTION, STATE_PLAYING, 
+typedef enum {STATE_INIT, STATE_SELECTION, 
+              STATE_PLAYING, 
               STATE_OVER, } state_t;
               
 static state_t state = STATE_INIT;
@@ -73,6 +73,11 @@ static void navswitch_task (void *data)
             display_choice (choice[curr_choice]);
             break;
         }
+        case STATE_INIT:
+        case STATE_PLAYING:
+        case STATE_OVER:
+        default:
+            break;
     }
     
     if (navswitch_push_event_p (NAVSWITCH_SOUTH)) {
@@ -88,17 +93,27 @@ static void navswitch_task (void *data)
             display_choice (choice[curr_choice]);
             break;
         }
+        case STATE_INIT:
+        case STATE_PLAYING:
+        case STATE_OVER:
+        default:
+            break;
     }
     
     if (navswitch_push_event_p (NAVSWITCH_PUSH)) {
         switch (state)
         {
-        case STATE_READY:
+        case STATE_INIT:
             state = STATE_SELECTION;
+            display_choice (choice[curr_choice]);
             break;
         case STATE_SELECTION:
             
         }
+        case STATE_PLAYING:
+        case STATE_OVER:
+        default:
+            break;
     }
     
     // Recieve
