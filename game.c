@@ -14,7 +14,7 @@
 #include "pacer.h"
 
 
-#define LOOP_RATE 30
+#define LOOP_RATE 300
 #define MESSAGE_RATE 10
 
 
@@ -33,7 +33,7 @@ int main (void)
     tinygl_text_mode_set(TINYGL_TEXT_MODE_SCROLL);
     
     // Display startup message
-    tinygl_text (" PAPER, SCISSORS, ROCK READY");
+    tinygl_text (" PAPER SCISSORS ROCK READY");
     
     while (1) 
     {
