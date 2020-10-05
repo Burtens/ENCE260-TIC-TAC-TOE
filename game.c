@@ -7,16 +7,36 @@
 */
 
 #include "system.h"
-#include "pacer.h"
 #include "tinygl.h"
 #include "task.h"
+#include "navswitch.h"
 #include "../fonts/font5x7_1.h"
+#include "pio.h"
 
+// Rates
+enum {DISPLAY_TASK_RATE = 300};
+enum {NAVSWITCH_TASK_RATE = 20};
+enum {GAME_TASK_RATE = 100};
+
+typedef enum {STATE_INIT, STATE_SELECTION,
+              STATE_PLAYING, STATE_OVER, 
+              STATE_READY} state_t;
+              
 static state_t state = STATE_INIT;
 
 static void display_task (void *data)
 {
+    static bool init = 0;
     
+    if (!init) {
+        
+        tinygl_init (DISPLAY_TASK_RATE);
+        tinygl_font_set (&font5x7_1);
+        tinygl_text_speed_set (10);
+        tinygl_text_mode_set (TINYGL_TEXT_MODE_SCROLL);
+
+        init = 1;
+    }
 }
     
 static void navswitch_task (void *data)
@@ -57,7 +77,13 @@ static void navswitch_task (void *data)
 
 static void game_task (void *data)
 {
-    
+    switch (state) 
+    {
+    case STATE_INIT:
+        tinygl_text ("  PAPER, SCISSORS, ROCK");
+        state = STATE_READY;
+        break;
+    }
 }
 
 int main (void)
