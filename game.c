@@ -98,6 +98,9 @@ void connect (void)
     
     uint8_t recieved_choice = 1;
     
+    // Checks if selection has been recieved. If there was interference/
+    // selection recieved wasn't P, S, or R then the other player's choice 
+    // isn't set.
     if (ir_uart_read_ready_p ()) {
         char temp_choice;
         temp_choice = ir_uart_getc ();
