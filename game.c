@@ -16,10 +16,17 @@
 
 #define LOOP_RATE 300
 #define MESSAGE_RATE 10
+#define STARTUP_MESSAGE " PAPER SCISSORS ROCK READY"
+#define NUM_CHOICES 3
+#define PAPER "P"
+#define SCISSORS "S"
+#define ROCK "R"
+
+#define PAPER_CHOICE 0
+#define ROCK_CHOICE 2
 
 static uint8_t curr_choice = 0;
-static uint8_t num_choices = 3;
-static char choices[3] = {'P', 'S', 'R'};
+static char choices[NUM_CHOICES] = {PAPER, SCISSORS, ROCK};
 
 void display_choice (char choice)
 {
@@ -32,12 +39,17 @@ void display_choice (char choice)
 
 void selection (void) 
 {
-    if (navswitch_push_event_p (NAVSWITCH_NORTH)) 
+    if (navswitch_push_event_p (NAVSWITCH_NORTH)) {
         curr_choice = (curr_choice + 1) % num_choices; // Wrap around
+    }
     
-    if (navswitch_push_event_p (NAVSWITCH_SOUTH))
-        curr_choice = (curr_choice - 1) % num_choices; // Wrap around
-    
+    if (navswitch_push_event_p (NAVSWITCH_SOUTH)) {
+        if (curr_choice == PAPER_CHOICE) {
+            curr_choice = ROCK_CHOICE; // Unsigned int can't have negative value so formula below can't be applied.
+        else {
+            curr_choice = (curr_choice - 1) % num_choices; // Wrap around
+        }
+    }
     display_choice (choices[curr_choice]);
     
 }
@@ -57,7 +69,7 @@ int main (void)
     tinygl_text_mode_set (TINYGL_TEXT_MODE_SCROLL);
     
     // Display startup message
-    tinygl_text (" PAPER SCISSORS ROCK READY");
+    tinygl_text (STARTUP_MESSAGE);
     
     while (1) 
     {
