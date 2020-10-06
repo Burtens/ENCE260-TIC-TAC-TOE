@@ -37,7 +37,7 @@
 
 static uint8_t curr_choice = 0; // Your choice
 static uint8_t other_choice = 0; // Other player's choice
-static uint8_t recieved_choice = 1;
+static uint8_t recieved_choice = 0;
 static uint8_t sent_choice = 0;
 static char choices[NUM_CHOICES] = {PAPER, SCISSORS, ROCK};
 
@@ -111,15 +111,16 @@ void connect (void)
         temp_choice = ir_uart_getc ();
         if (temp_choice == choices[PAPER_CHOICE]) {
             other_choice = PAPER_CHOICE;
+            recieved_choice = 1;
         } else if (temp_choice == choices[SCISSOR_CHOICE]) {
             other_choice = SCISSOR_CHOICE;
+            recieved_choice = 1;
         } else if (temp_choice == choices[ROCK_CHOICE]) { 
             other_choice = ROCK_CHOICE;
+            recieved_choice = 1;
         } else {
             recieved_choice = 0;
         }
-    } else {
-        recieved_choice = 0;
     }
     
     if (sent_choice && recieved_choice) {
