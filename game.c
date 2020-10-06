@@ -107,7 +107,7 @@ void connect (void)
     // or the selection recieved wasn't P, S, or R then the other player's choice 
     // isn't set.
     if (ir_uart_read_ready_p ()) {
-        char temp_choice;
+        char temp_choice = '\0';
         temp_choice = ir_uart_getc ();
         if (temp_choice == choices[PAPER_CHOICE]) {
             other_choice = PAPER_CHOICE;
