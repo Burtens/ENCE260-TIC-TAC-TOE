@@ -16,7 +16,8 @@
 
 #define LOOP_RATE 300
 #define MESSAGE_RATE 15
-#define STARTUP_MESSAGE " PAPER SCISSORS ROCK READY"
+#define STARTUP_MESSAGE "  PAPER SCISSORS ROCK READY"
+#define CONNECT_MESSAGE "  CONNECTING"
 #define NUM_CHOICES 3
 
 #define PAPER 'P'
@@ -29,9 +30,21 @@
 static uint8_t curr_choice = 0;
 static char choices[NUM_CHOICES] = {PAPER, SCISSORS, ROCK};
 
-typedef enum {STATE_INIT, STATE_SELECTION } game_state_t;
+typedef enum {STATE_INIT, STATE_SELECTION, STATE_CONNECT } game_state_t;
 
 static game_state_t game_state = STATE_INIT;
+
+
+/* Once the player is ready to play and pressed the navswitch
+ * the player is taken to the selection screen. 
+ */
+void ready (void)
+{
+    if (navswitch_push_event_p (NAVSWITCH_PUSH)) {
+        game_state = STATE_SELECTION;
+    }
+}
+
 
 void display_choice (char choice)
 {
@@ -42,6 +55,10 @@ void display_choice (char choice)
     tinygl_text (buffer);
 }
 
+/* The player is able to select between P (Paper), S (Scissors) and R (Rock).
+ * Once a selection is made the game switches to the connect state while it waits
+ * for a selection by the other player.
+ */
 void selection (void) 
 {
     if (navswitch_push_event_p (NAVSWITCH_NORTH)) {
@@ -55,9 +72,21 @@ void selection (void)
             curr_choice = (curr_choice - 1) % NUM_CHOICES; // Wrap around
         }
     }
+    
     display_choice (choices[curr_choice]);
     
+    if (navswitch_push_event_p (NAVSWITCH_PUSH)) {
+        game_state = STATE_CONNECT;
+    }
+    
 }
+
+/* Checks whether the other player has made a selection and sets player numbers. */
+void connect (void)
+{
+    tinygl_text (CONNECT_MESSAGE); // Wait while connection is made.
+}
+
 
 int main (void)
 {
@@ -84,14 +113,16 @@ int main (void)
         
         switch (game_state)
         {
-        case STATE_INIT:
-            if (navswitch_push_event_p (NAVSWITCH_PUSH)) {
-                game_state = STATE_SELECTION;
-                selection ();
-            }
+        case STATE_INIT: 
+            ready ();
             break;
         case STATE_SELECTION:
-            selection();
+            selection ();
+            break;
+        case STATE_CONNECT:
+            connect ();
+            break;
+        default:
             break;
         }
     }
