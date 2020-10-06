@@ -36,7 +36,7 @@
 #define LOSS "  LOSS"
 
 static uint8_t curr_choice = 0; // Your choice
-static uint8_t other_choice = 0; // Other player's choice
+static uint8_t other_choice = 4; // Other player's choice
 static char choices[NUM_CHOICES] = {PAPER, SCISSORS, ROCK};
 
 typedef enum {STATE_INIT, STATE_SELECTION, STATE_CONNECT,
@@ -94,9 +94,14 @@ void selection (void)
 /* Checks whether the other player has made a selection and sends own selection.*/
 void connect (void)
 {
-    ir_uart_putc (choices[curr_choice]); // Send choice.
     
     uint8_t recieved_choice = 1;
+    uint8_t sent_choice = 0;
+    
+    if (navswitch_push_event_p (NAVSWITCH_PUSH) {
+        ir_uart_putc (choices[curr_choice]); // Send choice.
+        sent_choice = 1;
+    }
     
     // Checks if selection has been recieved. If there was interference 
     // or the selection recieved wasn't P, S, or R then the other player's choice 
@@ -117,7 +122,7 @@ void connect (void)
         recieved_choice = 0;
     }
     
-    if (recieved_choice) {
+    if (sent_choice && recieved_choice) {
         game_state = STATE_RESULT;
     }
         
