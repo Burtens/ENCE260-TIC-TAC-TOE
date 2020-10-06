@@ -79,7 +79,7 @@ static void current_message(void *data)
 }
 
 /* Updates display by calling tinygl_update */
-static void update_task(void *data)
+static void update_task(void)
 {
     navswitch_update();
     tinygl_update();
@@ -111,12 +111,12 @@ int main (void)
     tinygl_text_mode_set (TINYGL_TEXT_MODE_SCROLL);
 
     task_t tasks[] = {
-            {.func = update_task, .period = TASK_RATE/500,},
-            {.func = current_message, .period = TASK_RATE/500, .data = &game_state},
+            {.func = update_task, .period = TASK_RATE/500},
+            {.func = current_message, .period = TASK_RATE/400, .data = &game_state},
             {.func = ready, .period = TASK_RATE/300, .data = &game_state}
     };
 
-    task_schedule(tasks, 2);
+    task_schedule(tasks, 3);
 
 //    while (1)
 //    {
@@ -141,6 +141,6 @@ int main (void)
 //            break;
 //        }
 //    }
-    
+
     return 0;
 }
