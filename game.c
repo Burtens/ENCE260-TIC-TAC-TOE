@@ -16,8 +16,11 @@
 
 #define LOOP_RATE 300
 #define MESSAGE_RATE 15
+
 #define STARTUP_MESSAGE "  PAPER SCISSORS ROCK READY"
 #define CONNECT_MESSAGE "  CONNECTING"
+#define AGAIN_MESSAGE "  PLAY AGAIN"
+
 #define NUM_CHOICES 3
 
 #define PAPER 'P'
@@ -25,12 +28,19 @@
 #define ROCK 'R'
 
 #define PAPER_CHOICE 0
+#define SCISSOR_CHOICE 1
 #define ROCK_CHOICE 2
 
-static uint8_t curr_choice = 0;
+#define DRAW "  DRAW"
+#define WIN "  WIN"
+#define LOSS "  LOSS"
+
+static uint8_t curr_choice = 0; // Your choice
+static uint8_t other_choice = 0; // Other player's choice
 static char choices[NUM_CHOICES] = {PAPER, SCISSORS, ROCK};
 
-typedef enum {STATE_INIT, STATE_SELECTION, STATE_CONNECT } game_state_t;
+typedef enum {STATE_INIT, STATE_SELECTION, STATE_CONNECT,
+              STATE_RESULT, STATE_AGAIN} game_state_t;
 
 static game_state_t game_state = STATE_INIT;
 
@@ -51,7 +61,6 @@ void display_choice (char choice)
     char buffer[2];
     buffer[0] = choice;
     buffer[1] = '\0';
-    tinygl_text_mode_set (TINYGL_TEXT_MODE_STEP);
     tinygl_text (buffer);
 }
 
@@ -76,17 +85,66 @@ void selection (void)
     display_choice (choices[curr_choice]);
     
     if (navswitch_push_event_p (NAVSWITCH_PUSH)) {
+        tinygl_text (CONNECT_MESSAGE);
         game_state = STATE_CONNECT;
     }
     
 }
 
-/* Checks whether the other player has made a selection and sets player numbers. */
+/* Checks whether the other player has made a selection and sends own selection.*/
 void connect (void)
 {
-    tinygl_text (CONNECT_MESSAGE); // Wait while connection is made.
+    ir_uart_putc (choices[curr_choice]); // Send choice.
+    
+    uint8_t recieved_choice = 1;
+    
+    if (ir_uart_read_ready_p ()) {
+        char temp_choice;
+        temp_choice = ir_uart_getc ();
+        if (temp_choice == choices[PAPER_CHOICE]) {
+            other_choice = PAPER_CHOICE;
+        } else if (temp_choice == choices[SCISSOR_CHOICE]) {
+            other_choice = SCISSOR_CHOICE;
+        } else if (temp_choice == choices[ROCK_CHOICE]) { 
+            other_choice = ROCK_CHOICE;
+        } else {
+            recieved_choice = 0;
+        }
+    }
+    
+    if (recieved_choice) {
+        game_state = STATE_RESULT;
+    }
+        
 }
 
+/* Checks whether the player won, lost or drew. */
+void result (void)
+{
+    if (curr_choice == other_choice) {
+        tinygl_text (DRAW);
+    } else if (curr_choice == ROCK_CHOICE && other_choice == SCISSOR_CHOICE) {
+        tinygl_text (WIN);
+    } else if (curr_choice == SCISSOR_CHOICE && other_choice == PAPER_CHOICE) {
+        tinygl_text (WIN);
+    } else if (curr_choice == PAPER_CHOICE && other_choice == ROCK_CHOICE) {
+        tinygl_text (WIN);
+    } else {
+        tinygl_text (LOSS);
+    }
+    
+    game_state = STATE_AGAIN;
+}
+
+/* The player can decide whether they would like to play again*/
+/* Not implemented yet.*/
+void again (void)
+{
+    
+    if (navswitch_push_event_p (NAVSWITCH_PUSH)) {
+        game_state = STATE_INIT;
+    }
+}
 
 int main (void)
 {
@@ -121,6 +179,12 @@ int main (void)
             break;
         case STATE_CONNECT:
             connect ();
+            break;
+        case STATE_RESULT:
+            result ();
+            break;
+        case STATE_AGAIN:
+            again ();
             break;
         default:
             break;
