@@ -57,9 +57,10 @@ static void ready (void *data)
 }
 
 /*Changes the display to print a specific message based on current state*/
-static void current_message(game_state_t state)
+static void current_message(void *data)
 {
-    switch (state) {
+    game_state_t* state = data;
+    switch (*state) {
         case STATE_INIT:
             tinygl_text (STARTUP_MESSAGE); // Display startup message
             break;
@@ -80,8 +81,6 @@ static void current_message(game_state_t state)
 /* Updates display by calling tinygl_update */
 static void update_task(void *data)
 {
-    game_state_t* game_state = data;
-    current_message(*game_state);
     navswitch_update();
     tinygl_update();
 }
@@ -112,7 +111,8 @@ int main (void)
     tinygl_text_mode_set (TINYGL_TEXT_MODE_SCROLL);
 
     task_t tasks[] = {
-            {.func = update_task, .period = TASK_RATE/500, .data = &game_state},
+            {.func = update_task, .period = TASK_RATE/500,},
+            {.func = current_message, .period = TASK_RATE/500, .data = &game_state},
             {.func = ready, .period = TASK_RATE/300, .data = &game_state}
     };
 
