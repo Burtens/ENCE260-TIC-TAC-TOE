@@ -51,7 +51,8 @@ typedef enum {STATE_INIT, STATE_SELECTION, STATE_CONNECT,
 static void ready (void *data)
 {
     game_state_t* game_state = data;
-    if (navswitch_push_event_p (NAVSWITCH_PUSH)) {
+
+    if (navswitch_push_event_p (NAVSWITCH_PUSH) && *game_state == STATE_INIT) {
         *game_state = STATE_SELECTION;
     }
 }
@@ -105,18 +106,20 @@ int main (void)
     navswitch_init ();
     
     // Initialise tinygl and apply preferences.
-    tinygl_init (TASK_RATE/250);
+    tinygl_init (TASK_RATE/500);
     tinygl_font_set (&font5x7_1);
-    tinygl_text_speed_set (8);
+    tinygl_text_speed_set (2);
     tinygl_text_mode_set (TINYGL_TEXT_MODE_SCROLL);
 
+    tinygl_text (STARTUP_MESSAGE); // Display startup message
+
     task_t tasks[] = {
-            {.func = update_task, .period = TASK_RATE/500},
-            {.func = current_message, .period = TASK_RATE/400, .data = &game_state},
+            {.func = update_task, .period = TASK_RATE /500},
+            //{.func = current_message, .period = TASK_RATE/ 300, .data = &game_state},
             {.func = ready, .period = TASK_RATE/300, .data = &game_state}
     };
 
-    task_schedule(tasks, 3);
+    task_schedule(tasks, 2);
 
 //    while (1)
 //    {
