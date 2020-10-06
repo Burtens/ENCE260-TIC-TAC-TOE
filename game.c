@@ -29,6 +29,10 @@
 static uint8_t curr_choice = 0;
 static char choices[NUM_CHOICES] = {PAPER, SCISSORS, ROCK};
 
+typedef enum {STATE_INIT, STATE_SELECTION } game_state_t;
+
+static game_state_t game_state = STATE_INIT;
+
 void display_choice (char choice)
 {
     char buffer[2];
@@ -77,8 +81,19 @@ int main (void)
         pacer_wait ();
         tinygl_update ();
         navswitch_update ();
-    
-        selection ();
+        
+        switch (game_state)
+        {
+        case STATE_INIT:
+            if (navswitch_push_event_p (NAVSWITCH_PUSH)) {
+                game_state = STATE_SELECTION;
+                selection ();
+            }
+            break;
+        case STATE_SELECTION:
+            selection();
+            break;
+        }
     }
     
     return 0;
