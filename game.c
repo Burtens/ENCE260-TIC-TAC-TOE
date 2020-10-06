@@ -98,7 +98,7 @@ void connect (void)
     uint8_t recieved_choice = 1;
     uint8_t sent_choice = 0;
     
-    if (navswitch_push_event_p (NAVSWITCH_PUSH) {
+    if (navswitch_push_event_p (NAVSWITCH_PUSH)) {
         ir_uart_putc (choices[curr_choice]); // Send choice.
         sent_choice = 1;
     }
