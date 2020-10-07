@@ -11,18 +11,29 @@
 
 #include "system.h"
 
-typedef enum {STATE_INIT, STATE_SELECTION, STATE_CONNECT,
-    STATE_RESULT, STATE_AGAIN} game_states_t;
-
 #define PAPER_CHOICE 0
 #define SCISSOR_CHOICE 1
 #define ROCK_CHOICE 2
+
+#define NUM_CHOICES 3
+#define PAPER 'P'
+#define SCISSORS 'S'
+#define ROCK 'R'
+
+
+typedef enum {STATE_INIT, STATE_SELECTION, STATE_CONNECT, STATE_WAIT,
+    STATE_RESULT, STATE_AGAIN} game_states_t;
+
+
+static char choices[NUM_CHOICES] = {PAPER, SCISSORS, ROCK};
+
 
 typedef struct game_state_struct
 {
     game_states_t state; //Current State
     uint8_t curr_choice; // Your choice
     uint8_t other_choice; // Other player's choice
+    uint8_t recieved_response;
 } state_t;
 
 

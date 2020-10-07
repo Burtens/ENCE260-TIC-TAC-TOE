@@ -8,18 +8,10 @@
 
 #include "system.h"
 #include "nav_tasks.h"
+#include "game_ir.h"
 #include "navswitch.h"
 #include "game.h"
 #include "game_display.h"
-
-#define NUM_CHOICES 3
-
-#define PAPER 'P'
-#define SCISSORS 'S'
-#define ROCK 'R'
-
-
-static char choices[NUM_CHOICES] = {PAPER, SCISSORS, ROCK};
 
 void init_nav(void)
 {
@@ -67,6 +59,12 @@ void nav_push_task (void *data) {
                 break;
             case STATE_SELECTION:
                 game_state->state = STATE_CONNECT;
+                break;
+            case STATE_CONNECT:
+                if (game_state->recieved_response != 0) {
+                    game_state->state = STATE_RESULT;
+                }
+                break;
         }
         current_message(game_state->state);
     }
