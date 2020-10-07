@@ -15,7 +15,7 @@ DEL = rm
 all: game.out
 
 # Compile: create object files from C source files.
-game.o: game.c game.h ../../drivers/avr/system.h ../../utils/tinygl.h ../../drivers/navswitch.h ../../drivers/avr/ir_uart.h ../../utils/font.h ../../utils/pacer.h ../../utils/task.h ../../drivers/display.h ../../fonts/font5x7_1.h
+game.o: game.c game.h game_display.h ../../drivers/avr/system.h  ../../drivers/avr/ir_uart.h  ../../utils/task.h
 	$(CC) -c $(CFLAGS) $< -o $@
 
 system.o: ../../drivers/avr/system.c ../../drivers/avr/system.h 
@@ -60,11 +60,14 @@ ledmat.o: ../../drivers/ledmat.c ../../drivers/avr/pio.h ../../drivers/avr/syste
 task.o: ../../utils/task.c ../../utils/task.h ../../drivers/avr/system.h ../../drivers/avr/timer.h
 	$(CC) -c $(CFLAGS) $< -o $@
 
-message_display.o: message_display.c message_display.h game.h ../../drivers/avr/system.h ../../utils/tinygl.h
+game_display.o: game_display.c game_display.h ../../utils/tinygl.h ../../fonts/font5x7_1.h
+	$(CC) -c $(CFLAGS) $< -o $@
+
+nav_tasks.o: nav_tasks.c nav_tasks.h game.h game_display.h ../../drivers/avr/system.h ../../drivers/navswitch.h ../../utils/tinygl.h
 	$(CC) -c $(CFLAGS) $< -o $@
 
 # Link: create ELF output file from object files.
-game.out: game.o system.o tinygl.o navswitch.o ir_uart.o font.o pacer.o pio.o prescale.o timer.o timer0.o usart1.o display.o ledmat.o task.o message_display.o
+game.out: game.o system.o tinygl.o navswitch.o ir_uart.o font.o pacer.o pio.o prescale.o timer.o timer0.o usart1.o display.o ledmat.o task.o game_display.o nav_tasks.o
 	$(CC) $(CFLAGS) $^ -o $@ -lm
 	$(SIZE) $@
 

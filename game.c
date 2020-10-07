@@ -7,90 +7,41 @@
 */
 
 #include "system.h"
-#include "tinygl.h"
-#include "navswitch.h"
 #include "ir_uart.h"
-#include "../fonts/font5x7_1.h"
 #include "task.h"
 #include "game.h"
-#include "message_display.h"
-#include "selection.h"
-
-
-#define LOOP_RATE 300
-#define MESSAGE_RATE 15
-
-#define STARTUP_MESSAGE "  PAPER SCISSORS ROCK READY"
-#define CONNECT_MESSAGE "  CONNECTING"
-#define AGAIN_MESSAGE "  PLAY AGAIN"
+#include "game_display.h"
+#include "nav_tasks.h"
 
 #define PAPER 'P'
 #define SCISSORS 'S'
 #define ROCK 'R'
 
-#define PAPER_CHOICE 0
-#define SCISSOR_CHOICE 1
-#define ROCK_CHOICE 2
 
 #define DRAW "  DRAW"
 #define WIN "  WIN"
 #define LOSS "  LOSS"
 
 
-/* Once the player is ready to play and pressed the navswitch
- * the player is taken to the selection screen. 
- */
-static void ready (void *data)
-{
-    game_state_t* game_state = data;
-
-    if (navswitch_push_event_p (NAVSWITCH_PUSH) && *game_state == STATE_INIT) {
-        *game_state = STATE_CONNECT;
-        current_message(*game_state);
-    }
-}
-
-
-/* Updates display by calling tinygl_update */
-static void update_task(void)
-{
-    navswitch_update();
-    tinygl_update();
-}
-
-
-void display_choice (char choice)
-{
-    char buffer[2];
-    buffer[0] = choice;
-    buffer[1] = '\0';
-    tinygl_text (buffer);
-}
-
 
 int main (void)
 {
-    game_state_t game_state = STATE_INIT; //Current State
-    uint8_t curr_choice = 0; // Your choice
-    uint8_t other_choice = 0; // Other player's choice
+    state_t game_state = {STATE_INIT, 0,0};
 
     system_init ();
-    navswitch_init ();
-    
-    // Initialise tinygl and apply preferences.
-    tinygl_init (TASK_RATE/500);
-    tinygl_font_set (&font5x7_1);
-    tinygl_text_speed_set (2);
-    tinygl_text_mode_set (TINYGL_TEXT_MODE_SCROLL);
+    init_nav();
+    game_display_init();
 
-    tinygl_text (STARTUP_MESSAGE); // Display startup message
+    current_message(game_state.state);
 
     task_t tasks[] = {
-            {.func = update_task, .period = TASK_RATE /500},
-            {.func = ready, .period = TASK_RATE/1000, .data = &game_state}
+            {.func = update_task, .period = TASK_RATE/250},
+            {.func = nav_update, .period = TASK_RATE / 100},
+            {.func = nav_push_task, .period = TASK_RATE / 100, .data = &game_state},
+            {.func = selection, .period = TASK_RATE / 100, .data = &game_state}
     };
 
-    task_schedule(tasks, 2);
+    task_schedule(tasks, 4);
 
 //    while (1)
 //    {

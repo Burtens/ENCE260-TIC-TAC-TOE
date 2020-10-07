@@ -5,8 +5,21 @@
 #ifndef GROUP_328_GAME_H
 #define GROUP_328_GAME_H
 
+#include "system.h"
+
 typedef enum {STATE_INIT, STATE_SELECTION, STATE_CONNECT,
-    STATE_RESULT, STATE_AGAIN} game_state_t;
+    STATE_RESULT, STATE_AGAIN} game_states_t;
+
+#define PAPER_CHOICE 0
+#define SCISSOR_CHOICE 1
+#define ROCK_CHOICE 2
+
+typedef struct game_state_struct
+{
+    game_states_t state; //Current State
+    uint8_t curr_choice; // Your choice
+    uint8_t other_choice; // Other player's choice
+} state_t;
 
 
 #endif //GROUP_328_GAME_H
