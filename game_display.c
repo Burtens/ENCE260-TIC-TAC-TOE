@@ -8,6 +8,7 @@
 
 #define TASK_RATE (8000000 / 256)
 
+
 #include "game_display.h"
 #include "../fonts/font5x7_1.h"
 #include "tinygl.h"
@@ -22,13 +23,13 @@ void game_display_init(void) {
     tinygl_text_mode_set (TINYGL_TEXT_MODE_SCROLL);
 }
 
-/* Updates display by calling tinygl_update */
+// Updates display by calling tinygl_update
 void update_task(__unused__ void *data)
 {
     tinygl_update();
 }
 
-/*Changes the display to print a specific message based on current state*/
+// Changes the display to print a specific message based on current state
 void current_message(game_states_t state)
 {
 
@@ -50,6 +51,7 @@ void current_message(game_states_t state)
     }
 }
 
+// Displays char representing the users choice when user is selecting a choice
 void display_choice (char choice)
 {
     char buffer[2];

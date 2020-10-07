@@ -1,6 +1,10 @@
-//
-// Created by sgb79 on 7/10/20.
-//
+/** @file   game.h
+    @author Samuel Burtenshaw, Zachary Kaye
+    @date   5 October 2020
+    @brief  A simple paper, scissors, rock game.
+
+    @defgroup header file for game.c, also  contains global defines such as game_state_struct and game_states enum
+*/
 
 #ifndef GROUP_328_GAME_H
 #define GROUP_328_GAME_H

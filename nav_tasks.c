@@ -1,9 +1,9 @@
-/** @file   selection.c
+/** @file   nav_tasks.c
     @author Samuel Burtenshaw, Zachary Kaye
     @date   5 October 2020
     @brief  A simple paper, scissors, rock game.
 
-    @defgroup File that controls the selection of choices in game.
+    @defgroup File that controls the nav_switch during runtime
 */
 
 #include "system.h"
@@ -13,6 +13,7 @@
 #include "game_display.h"
 
 #define NUM_CHOICES 3
+
 #define PAPER 'P'
 #define SCISSORS 'S'
 #define ROCK 'R'
@@ -32,10 +33,8 @@ void nav_update (__unused__ void *data)
 
 
 /* The player is able to select between P (Paper), S (Scissors) and R (Rock).
- * Once a selection is made the game switches to the connect state while it waits
- * for a selection by the other player.
  */
-void selection (void *data)
+void select_choice (void *data)
 {
     state_t* game_state = data;
 
@@ -55,8 +54,9 @@ void selection (void *data)
 
     }
 }
+
 /*
-* Checks for nav_switch changes and calls
+* Checks for nav_switch pushes
 */
 void nav_push_task (void *data) {
     state_t *game_state = data;
