@@ -11,8 +11,9 @@
 #include "navswitch.h"
 #include "ir_uart.h"
 #include "../fonts/font5x7_1.h"
-#include "pacer.h"
 #include "task.h"
+#include "game.h"
+#include "message_display.h"
 #include "selection.h"
 
 
@@ -22,8 +23,6 @@
 #define STARTUP_MESSAGE "  PAPER SCISSORS ROCK READY"
 #define CONNECT_MESSAGE "  CONNECTING"
 #define AGAIN_MESSAGE "  PLAY AGAIN"
-
-
 
 #define PAPER 'P'
 #define SCISSORS 'S'
@@ -38,13 +37,6 @@
 #define LOSS "  LOSS"
 
 
-
-
-typedef enum {STATE_INIT, STATE_SELECTION, STATE_CONNECT,
-              STATE_RESULT, STATE_AGAIN} game_state_t;
-
-
-
 /* Once the player is ready to play and pressed the navswitch
  * the player is taken to the selection screen. 
  */
@@ -53,31 +45,11 @@ static void ready (void *data)
     game_state_t* game_state = data;
 
     if (navswitch_push_event_p (NAVSWITCH_PUSH) && *game_state == STATE_INIT) {
-        *game_state = STATE_SELECTION;
+        *game_state = STATE_CONNECT;
+        current_message(*game_state);
     }
 }
 
-/*Changes the display to print a specific message based on current state*/
-static void current_message(void *data)
-{
-    game_state_t* state = data;
-    switch (*state) {
-        case STATE_INIT:
-            tinygl_text (STARTUP_MESSAGE); // Display startup message
-            break;
-        case STATE_CONNECT:
-            tinygl_text (CONNECT_MESSAGE); // Display connect message
-            break;
-        case STATE_RESULT:
-            // TODO: Get result message
-            break;
-        case STATE_AGAIN:
-            tinygl_text (AGAIN_MESSAGE); // Display again message
-            break;
-        case STATE_SELECTION:
-            break;
-    }
-}
 
 /* Updates display by calling tinygl_update */
 static void update_task(void)
@@ -115,8 +87,7 @@ int main (void)
 
     task_t tasks[] = {
             {.func = update_task, .period = TASK_RATE /500},
-            //{.func = current_message, .period = TASK_RATE/ 300, .data = &game_state},
-            {.func = ready, .period = TASK_RATE/300, .data = &game_state}
+            {.func = ready, .period = TASK_RATE/1000, .data = &game_state}
     };
 
     task_schedule(tasks, 2);
