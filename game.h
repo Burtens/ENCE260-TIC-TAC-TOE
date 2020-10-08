@@ -15,17 +15,8 @@
 #define SCISSOR_CHOICE 1
 #define ROCK_CHOICE 2
 
-#define NUM_CHOICES 3
-#define PAPER 'P'
-#define SCISSORS 'S'
-#define ROCK 'R'
-
-
 typedef enum {STATE_INIT, STATE_SELECTION, STATE_SEND, STATE_WAIT,
     STATE_RESULT, STATE_AGAIN} game_states_t;
-
-
-static char choices[NUM_CHOICES] = {PAPER, SCISSORS, ROCK};
 
 
 typedef struct game_state_struct

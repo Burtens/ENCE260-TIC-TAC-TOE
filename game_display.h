@@ -21,6 +21,13 @@
 #define WIN "  WIN"
 #define LOSS "  LOSS"
 
+#define PAPER 'P'
+#define SCISSORS 'S'
+#define ROCK 'R'
+
+#define NUM_CHOICES 3
+
+static char choices[NUM_CHOICES] = {PAPER, SCISSORS, ROCK};
 
 void game_display_init(void);
 
