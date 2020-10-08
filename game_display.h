@@ -29,4 +29,6 @@ void current_message(game_states_t state);
 
 void display_choice(char choice);
 
+void display_result (void *data);
+
 #endif //GROUP_328_GAME_DISPLAY_H

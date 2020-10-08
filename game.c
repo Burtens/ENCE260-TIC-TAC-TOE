@@ -28,34 +28,11 @@ int main (void)
             {.func = nav_update, .period = TASK_RATE / 100},
             {.func = nav_push_task, .period = TASK_RATE / 100, .data = &game_state},
             {.func = select_choice, .period = TASK_RATE / 100, .data = &game_state},
-            {.func = send, .period = TASK_RATE / 100, .data = &game_state}
+            {.func = send, .period = TASK_RATE / 100, .data = &game_state},
+            {.func = check_response_and_ACK, .period = TASK_RATE / 100, .data = &game_state},
+            {.func = display_result, .period = TASK_RATE / 100, .data = &game_state}
     };
 
-    task_schedule(tasks, 4);
-
-//    while (1)
-//    {
-//        switch (game_state)
-//        {
-//        case STATE_INIT:
-//            ready ();
-//            break;
-//        case STATE_SELECTION:
-//            select_choice ();
-//            break;
-//        case STATE_CONNECT:
-//            connect ();
-//            break;
-//        case STATE_RESULT:
-//            result ();
-//            break;
-//        case STATE_AGAIN:
-//            again ();
-//            break;
-//        default:
-//            break;
-//        }
-//    }
-
+    task_schedule(tasks, 7);
     return 0;
 }

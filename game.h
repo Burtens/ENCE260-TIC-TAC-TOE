@@ -21,7 +21,7 @@
 #define ROCK 'R'
 
 
-typedef enum {STATE_INIT, STATE_SELECTION, STATE_CONNECT, STATE_WAIT,
+typedef enum {STATE_INIT, STATE_SELECTION, STATE_SEND, STATE_WAIT,
     STATE_RESULT, STATE_AGAIN} game_states_t;
 
 
@@ -33,7 +33,7 @@ typedef struct game_state_struct
     game_states_t state; //Current State
     uint8_t curr_choice; // Your choice
     uint8_t other_choice; // Other player's choice
-    uint8_t recieved_response;
+    int response_timer;
 } state_t;
 
 

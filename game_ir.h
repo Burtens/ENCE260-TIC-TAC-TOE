@@ -7,6 +7,6 @@
 
 void send(void *data);
 
-void connection(void *data);
+void check_response_and_ACK(void *data);
 
 #endif //GROUP_328_GAME_IR_H

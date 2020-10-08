@@ -66,7 +66,10 @@ game_display.o: game_display.c game_display.h ../../utils/tinygl.h ../../fonts/f
 nav_tasks.o: nav_tasks.c nav_tasks.h game.h game_display.h game_ir.h ../../drivers/avr/system.h ../../drivers/navswitch.h ../../utils/tinygl.h
 	$(CC) -c $(CFLAGS) $< -o $@
 
-game_ir.o: game_ir.c game_ir.h ../../drivers/avr/ir_uart.h
+led.o: ../../drivers/led.c ../../drivers/led.h
+	$(CC) -c $(CFLAGS) $< -o $@
+
+game_ir.o: game_ir.c game_ir.h game_display.h ../../drivers/avr/ir_uart.h ../../drivers/led.h
 	$(CC) -c $(CFLAGS) $< -o $@
 
 # Link: create ELF output file from object files.

@@ -8,7 +8,6 @@
 
 #include "system.h"
 #include "nav_tasks.h"
-#include "game_ir.h"
 #include "navswitch.h"
 #include "game.h"
 #include "game_display.h"
@@ -48,7 +47,7 @@ void select_choice (void *data)
 }
 
 /*
-* Checks for nav_switch pushes
+* Checks for nav_switch pushes and changes state accordingly
 */
 void nav_push_task (void *data) {
     state_t *game_state = data;
@@ -58,12 +57,17 @@ void nav_push_task (void *data) {
                 game_state->state = STATE_SELECTION;
                 break;
             case STATE_SELECTION:
-                game_state->state = STATE_CONNECT;
+                game_state->state = STATE_RESULT;
                 break;
-            case STATE_CONNECT:
-                if (game_state->recieved_response != 0) {
-                    game_state->state = STATE_RESULT;
-                }
+            case STATE_RESULT:
+                game_state->state = STATE_AGAIN;
+                break;
+            case STATE_AGAIN: //Reset Game
+                game_state->curr_choice = 0;
+                game_state->other_choice = 0;
+                game_state->state = STATE_INIT;
+                break;
+            default:
                 break;
         }
         current_message(game_state->state);
