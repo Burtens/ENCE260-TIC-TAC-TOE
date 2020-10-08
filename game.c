@@ -29,10 +29,9 @@ int main (void)
             {.func = nav_push_task, .period = TASK_RATE / 100, .data = &game_state},
             {.func = select_choice, .period = TASK_RATE / 100, .data = &game_state},
             {.func = send, .period = TASK_RATE / 100, .data = &game_state},
-            {.func = check_response_and_ACK, .period = TASK_RATE / 100, .data = &game_state},
-            {.func = display_result, .period = TASK_RATE / 100, .data = &game_state}
+            {.func = check_response_and_ACK, .period = TASK_RATE / 100, .data = &game_state}
     };
 
-    task_schedule(tasks, 7);
+    task_schedule(tasks, 6);
     return 0;
 }

@@ -60,7 +60,7 @@ ledmat.o: ../../drivers/ledmat.c ../../drivers/avr/pio.h ../../drivers/avr/syste
 task.o: ../../utils/task.c ../../utils/task.h ../../drivers/avr/system.h ../../drivers/avr/timer.h
 	$(CC) -c $(CFLAGS) $< -o $@
 
-game_display.o: game_display.c game_display.h ../../utils/tinygl.h ../../fonts/font5x7_1.h
+game_display.o: game_display.c game_display.h ../../utils/tinygl.h ../../fonts/font5x7_1.h ../../utils/task.h
 	$(CC) -c $(CFLAGS) $< -o $@
 
 nav_tasks.o: nav_tasks.c nav_tasks.h game.h game_display.h game_ir.h ../../drivers/avr/system.h ../../drivers/navswitch.h ../../utils/tinygl.h

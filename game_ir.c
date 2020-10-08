@@ -53,6 +53,7 @@ void check_response_and_ACK(void *data)
                 game_state->state = STATE_SEND;
                 break;
             case ACK:
+                display_result(data);
                 game_state->state = STATE_RESULT;
                 break;
             default:

@@ -21,6 +21,7 @@
 #define WIN "  WIN"
 #define LOSS "  LOSS"
 
+
 void game_display_init(void);
 
 void update_task(__unused__ void *data);

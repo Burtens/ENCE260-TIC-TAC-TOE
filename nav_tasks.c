@@ -54,10 +54,10 @@ void nav_push_task (void *data) {
     if (navswitch_push_event_p(NAVSWITCH_PUSH)) {
         switch (game_state->state) {
             case STATE_INIT:
-                game_state->state = STATE_SELECTION;
+                game_state->state = STATE_SELECTION; //Selection Screen
                 break;
             case STATE_SELECTION:
-                game_state->state = STATE_RESULT;
+                game_state->state = STATE_SEND; //Send State, where fun-kit sends data
                 break;
             case STATE_RESULT:
                 game_state->state = STATE_AGAIN;

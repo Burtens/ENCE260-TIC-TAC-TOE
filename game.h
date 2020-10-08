@@ -34,6 +34,7 @@ typedef struct game_state_struct
     uint8_t curr_choice; // Your choice
     uint8_t other_choice; // Other player's choice
     int response_timer;
+
 } state_t;
 
 

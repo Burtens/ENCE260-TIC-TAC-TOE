@@ -5,13 +5,12 @@
 
     @defgroup File that controls the display during runtime.
 */
-//Same as task rate for "task.h"
-#define TASK_RATE (8000000 / 256)
+
 
 #include "game_display.h"
 #include "../fonts/font5x7_1.h"
 #include "tinygl.h"
-
+#include "task.h"
 
 
 // Initialise tinygl and apply preferences.
@@ -50,20 +49,17 @@ void current_message(game_states_t state)
 /* Checks whether the player won, lost or drew. */
 void display_result (void *data) {
     state_t *game_state = data;
-    if (game_state->state == STATE_RESULT) {
-        uint8_t your_choice = game_state->curr_choice;
-        uint8_t opp_choice = game_state->other_choice;
+    uint8_t your_choice = game_state->curr_choice;
+    uint8_t opp_choice = game_state->other_choice;
 
-        tinygl_text_mode_set (TINYGL_TEXT_MODE_SCROLL);
-        if (your_choice == opp_choice) {
-            tinygl_text(DRAW);
-        } else if ((your_choice == ROCK_CHOICE && opp_choice == SCISSOR_CHOICE) ||
-                   (your_choice == SCISSOR_CHOICE && opp_choice == PAPER_CHOICE) ||
-                   (your_choice == PAPER_CHOICE && opp_choice == ROCK_CHOICE)) {
-            tinygl_text(WIN);
-        } else {
-            tinygl_text(LOSS);
-        }
+    if (your_choice == opp_choice) {
+        tinygl_text(DRAW);
+    } else if ((your_choice == ROCK_CHOICE && opp_choice == SCISSOR_CHOICE) ||
+               (your_choice == SCISSOR_CHOICE && opp_choice == PAPER_CHOICE) ||
+               (your_choice == PAPER_CHOICE && opp_choice == ROCK_CHOICE)) {
+        tinygl_text(WIN);
+    } else {
+        tinygl_text(LOSS);
     }
 }
 
