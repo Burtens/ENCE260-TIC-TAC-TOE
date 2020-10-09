@@ -16,7 +16,7 @@
 
 int main (void)
 {
-    state_t game_state = {STATE_INIT, 0,0, 0};
+    state_t game_state = {STATE_INIT, 0,0, 0, 0};
 
     system_init ();
     init_nav();
@@ -30,9 +30,11 @@ int main (void)
             {.func = nav_update, .period = TASK_RATE / 20},
             {.func = nav_push_task, .period = TASK_RATE / 20, .data = &game_state},
             {.func = select_choice, .period = TASK_RATE / 20, .data = &game_state},
-            {.func = send, .period = TASK_RATE / 20, .data = &game_state}
+            {.func = send, .period = TASK_RATE / 20, .data = &game_state},
+            {.func = check_response, .period = TASK_RATE / 20, .data = &game_state}
+
     };
 
-    task_schedule(tasks, 5);
+    task_schedule(tasks, 6);
     return 0;
 }

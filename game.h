@@ -24,7 +24,8 @@ typedef struct game_state_struct
     game_states_t state; //Current State
     uint8_t curr_choice; // Your choice
     uint8_t other_choice; // Other player's choice
-    int response_timer;
+    uint8_t sent;
+    uint8_t received;
 
 } state_t;
 

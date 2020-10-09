@@ -18,13 +18,9 @@ void send(void *data)
 {
     state_t* game_state = data;
     if (game_state->state == STATE_SEND) {
+        game_state->sent = 1;
         ir_uart_putc(game_state->curr_choice);
-
         game_state->state = STATE_WAIT;
-    }
-
-    if (game_state->state == STATE_WAIT) {
-        check_response_and_ACK(data);
     }
 }
 
@@ -33,18 +29,20 @@ void send(void *data)
 or the selection received wasn't P, S, or R then the other player's choice
 isn't set.
 Also waits for an ACK response before continuing*/
-void check_response_and_ACK(void *data)
+void check_response(void *data)
 {
     state_t* game_state = data;
 
     if (ir_uart_read_ready_p()) {
-        return;
+        game_state->other_choice = ir_uart_getc();
+        game_state->received = 1;
     }
 
-    game_state->other_choice = ir_uart_getc();
-    ir_uart_putc(game_state->curr_choice);
-    game_state->state = STATE_RESULT;
-    display_result(data);
+    if (game_state->sent && game_state->received) {
+        game_state->state = STATE_RESULT;
+        display_result(data);
+    }
+
 }
 
 
