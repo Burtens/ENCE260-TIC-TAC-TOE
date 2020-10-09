@@ -18,9 +18,12 @@ void send(void *data)
 {
     state_t* game_state = data;
     if (game_state->state == STATE_SEND) {
-        ir_uart_putc(choices[game_state->curr_choice]);
+        ir_uart_putc(game_state->curr_choice);
+
         game_state->state = STATE_WAIT;
-    } else if (game_state->state == STATE_WAIT) {
+    }
+
+    if (game_state->state == STATE_WAIT) {
         check_response_and_ACK(data);
     }
 }
@@ -33,38 +36,15 @@ Also waits for an ACK response before continuing*/
 void check_response_and_ACK(void *data)
 {
     state_t* game_state = data;
-    game_state->response_timer += 1;
-    if (game_state->response_timer >= 100) {
-        game_state->response_timer = 0;
-        game_state->state = STATE_SEND;
+
+    if (ir_uart_read_ready_p()) {
         return;
     }
 
-    if (!ir_uart_read_ready_p()) {
-        return;
-    }
-
-    char temp_choice = ir_uart_getc ();
-    game_state->response_timer = 0;
-    switch (temp_choice) {
-        case 'P':
-            game_state->other_choice = PAPER_CHOICE;
-            ir_uart_putc(choices[game_state->curr_choice]);
-            display_result(data);
-            break;
-        case 'S':
-            game_state->other_choice = SCISSOR_CHOICE;
-            ir_uart_putc(choices[game_state->curr_choice]);
-            display_result(data);
-            break;
-        case 'R':
-            game_state->other_choice = ROCK_CHOICE;
-            ir_uart_putc(choices[game_state->curr_choice]);
-            display_result(data);
-            break;
-        default:
-            break;
-    }
+    game_state->other_choice = ir_uart_getc();
+    ir_uart_putc(game_state->curr_choice);
+    game_state->state = STATE_RESULT;
+    display_result(data);
 }
 
 
