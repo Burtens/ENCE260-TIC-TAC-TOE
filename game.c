@@ -12,7 +12,6 @@
 #include "game_display.h"
 #include "nav_tasks.h"
 #include "game_ir.h"
-#include "led.h"
 
 
 int main (void)
@@ -23,7 +22,6 @@ int main (void)
     init_nav();
     game_display_init();
     init_ir();
-    led_init();
 
     current_message(game_state.state);
 

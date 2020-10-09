@@ -6,12 +6,6 @@
 #include "ir_uart.h"
 #include "game.h"
 #include "game_display.h"
-#include "led.h"
-
-#define NAK '?'
-#define ACK '$'
-
-static uint8_t led_state = 1;
 
 void init_ir(void)
 {
@@ -24,9 +18,7 @@ void send(void *data)
 {
     state_t* game_state = data;
     if (game_state->state == STATE_SEND) {
-        led_state = !led_state;
-        led_set(LED1, led_state);
-        ir_uart_putc_nocheck(choices[game_state->curr_choice]);
+        ir_uart_putc(choices[game_state->curr_choice]);
         game_state->state = STATE_WAIT;
     } else if (game_state->state == STATE_WAIT) {
         check_response_and_ACK(data);
@@ -53,30 +45,24 @@ void check_response_and_ACK(void *data)
     }
 
     char temp_choice = ir_uart_getc ();
-    display_choice(temp_choice);
     game_state->response_timer = 0;
     switch (temp_choice) {
         case 'P':
             game_state->other_choice = PAPER_CHOICE;
-            ir_uart_putc_nocheck(ACK);
+            ir_uart_putc(choices[game_state->curr_choice]);
+            display_result(data);
             break;
         case 'S':
             game_state->other_choice = SCISSOR_CHOICE;
-            ir_uart_putc_nocheck(ACK);
+            ir_uart_putc(choices[game_state->curr_choice]);
+            display_result(data);
             break;
         case 'R':
             game_state->other_choice = ROCK_CHOICE;
-            ir_uart_putc_nocheck(ACK);
-            break;
-        case NAK:
-            game_state->state = STATE_SEND;
-            break;
-        case ACK:
+            ir_uart_putc(choices[game_state->curr_choice]);
             display_result(data);
-            game_state->state = STATE_RESULT;
             break;
         default:
-            ir_uart_putc_nocheck(NAK);
             break;
     }
 }
