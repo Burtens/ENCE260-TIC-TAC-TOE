@@ -69,7 +69,7 @@ nav_tasks.o: nav_tasks.c nav_tasks.h game.h game_display.h game_ir.h ../../drive
 led.o: ../../drivers/led.c ../../drivers/led.h
 	$(CC) -c $(CFLAGS) $< -o $@
 
-game_ir.o: game_ir.c game_ir.h game_display.h ../../drivers/avr/ir_uart.h ../../drivers/led.h
+game_ir.o: game_ir.c game_ir.h game_display.h ../../drivers/avr/ir_uart.h ../../drivers/led.h ../../drivers/navswitch.h
 	$(CC) -c $(CFLAGS) $< -o $@
 
 # Link: create ELF output file from object files.

@@ -10,6 +10,7 @@
 #include "nav_tasks.h"
 #include "navswitch.h"
 #include "game.h"
+#include "game_ir.h"
 #include "game_display.h"
 
 void init_nav(void)
@@ -58,6 +59,7 @@ void nav_push_task (void *data) {
                 break;
             case STATE_SELECTION:
                 game_state->state = STATE_SEND; //Send State, where fun-kit sends data
+                send(data);
                 break;
             case STATE_RESULT:
                 game_state->state = STATE_AGAIN;

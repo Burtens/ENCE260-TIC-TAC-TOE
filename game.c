@@ -30,11 +30,11 @@ int main (void)
             {.func = nav_update, .period = TASK_RATE / 20},
             {.func = nav_push_task, .period = TASK_RATE / 20, .data = &game_state},
             {.func = select_choice, .period = TASK_RATE / 20, .data = &game_state},
-            {.func = send, .period = TASK_RATE / 20, .data = &game_state},
+            //{.func = send, .period = TASK_RATE / 20, .data = &game_state},
             {.func = check_response, .period = TASK_RATE / 20, .data = &game_state}
 
     };
 
-    task_schedule(tasks, 6);
+    task_schedule(tasks, 5);
     return 0;
 }

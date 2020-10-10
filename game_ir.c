@@ -17,11 +17,9 @@ void init_ir(void)
 void send(void *data)
 {
     state_t* game_state = data;
-    if (game_state->state == STATE_SEND) {
-        game_state->sent = 1;
-        ir_uart_putc(game_state->curr_choice);
-        game_state->state = STATE_WAIT;
-    }
+    game_state->sent = 1;
+    ir_uart_putc(choices[game_state->curr_choice]);
+    game_state->state = STATE_WAIT;
 }
 
 
@@ -33,15 +31,14 @@ void check_response(void *data)
 {
     state_t* game_state = data;
 
-    if (ir_uart_read_ready_p()) {
+    if (game_state->sent && game_state->received) {
+        game_state->state = STATE_RESULT;
+        //display_result(data);
+    } else if (ir_uart_read_ready_p()) {
         game_state->other_choice = ir_uart_getc();
         game_state->received = 1;
     }
 
-    if (game_state->sent && game_state->received) {
-        game_state->state = STATE_RESULT;
-        display_result(data);
-    }
 
 }
 
