@@ -12,6 +12,7 @@
 #include "game_display.h"
 #include "nav_tasks.h"
 #include "game_ir.h"
+#include "led.h"
 
 
 int main (void)
@@ -22,6 +23,8 @@ int main (void)
     init_nav();
     game_display_init();
     init_ir();
+    led_init();
+    led_set(LED1, 0);
 
     current_message(game_state.state);
 
@@ -30,11 +33,10 @@ int main (void)
             {.func = nav_update, .period = TASK_RATE / 20},
             {.func = nav_push_task, .period = TASK_RATE / 20, .data = &game_state},
             {.func = select_choice, .period = TASK_RATE / 20, .data = &game_state},
-            //{.func = send, .period = TASK_RATE / 20, .data = &game_state},
-            {.func = check_response, .period = TASK_RATE / 20, .data = &game_state}
-
+            {.func = check_response, .period = TASK_RATE / 20, .data = &game_state},
+            {.func = display_result, .period = TASK_RATE / 100, .data = &game_state}
     };
 
-    task_schedule(tasks, 5);
+    task_schedule(tasks, 6);
     return 0;
 }

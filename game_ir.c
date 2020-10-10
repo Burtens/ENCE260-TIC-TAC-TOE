@@ -6,6 +6,7 @@
 #include "ir_uart.h"
 #include "game.h"
 #include "game_display.h"
+#include "led.h"
 
 void init_ir(void)
 {
@@ -32,14 +33,12 @@ void check_response(void *data)
     state_t* game_state = data;
 
     if (game_state->sent && game_state->received) {
+        led_set(LED1, 1);
         game_state->state = STATE_RESULT;
-        //display_result(data);
     } else if (ir_uart_read_ready_p()) {
         game_state->other_choice = ir_uart_getc();
         game_state->received = 1;
     }
-
-
 }
 
 

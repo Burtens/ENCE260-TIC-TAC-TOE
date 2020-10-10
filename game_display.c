@@ -52,14 +52,16 @@ void display_result (void *data) {
     uint8_t your_choice = game_state->curr_choice;
     uint8_t opp_choice = game_state->other_choice;
 
-    if (your_choice == opp_choice) {
-        tinygl_text(DRAW);
-    } else if ((your_choice == ROCK_CHOICE && opp_choice == SCISSOR_CHOICE) ||
-               (your_choice == SCISSOR_CHOICE && opp_choice == PAPER_CHOICE) ||
-               (your_choice == PAPER_CHOICE && opp_choice == ROCK_CHOICE)) {
-        tinygl_text(WIN);
-    } else {
-        tinygl_text(LOSS);
+    if (game_state->state == STATE_RESULT) {
+        if (your_choice == opp_choice) {
+            tinygl_text("D\0");
+        } else if ((your_choice == ROCK_CHOICE && opp_choice == SCISSOR_CHOICE) ||
+                   (your_choice == SCISSOR_CHOICE && opp_choice == PAPER_CHOICE) ||
+                   (your_choice == PAPER_CHOICE && opp_choice == ROCK_CHOICE)) {
+            tinygl_text("W\0");
+        } else {
+            tinygl_text("L\0");
+        }
     }
 }
 
