@@ -54,13 +54,13 @@ void display_result (void *data) {
 
     if (game_state->state == STATE_RESULT) {
         if (your_choice == opp_choice) {
-            tinygl_text("D\0");
+            display_choice('D');
         } else if ((your_choice == ROCK_CHOICE && opp_choice == SCISSOR_CHOICE) ||
                    (your_choice == SCISSOR_CHOICE && opp_choice == PAPER_CHOICE) ||
                    (your_choice == PAPER_CHOICE && opp_choice == ROCK_CHOICE)) {
-            tinygl_text("W\0");
+            display_choice('W');
         } else {
-            tinygl_text("L\0");
+            display_choice('L');
         }
     }
 }
