@@ -1,8 +1,8 @@
-#Paper Scissors Rock#
+# **Paper Scissors Rock**
 
-**Authors:** Samuel Burtenshaw and Zachary Kaye
+## **Authors:** Samuel Burtenshaw and Zachary Kaye
 
-**Date:** 10/10/2020
+## **Date:** 10/10/2020
 
 Authors / Date
 
