@@ -20,7 +20,6 @@ void send(void *data)
     state_t* game_state = data;
     game_state->sent = 1;
     ir_uart_putc(game_state->curr_choice);
-    game_state->state = STATE_WAIT;
 }
 
 
@@ -33,8 +32,10 @@ void check_response(void *data)
     state_t* game_state = data;
 
     if (game_state->sent && game_state->received) {
-        led_set(LED1, 1);
         game_state->state = STATE_RESULT;
+        game_state->received = 0;
+        game_state->sent = 0;
+
     } else if (ir_uart_read_ready_p()) {
         game_state->other_choice = ir_uart_getc();
         game_state->received = 1;

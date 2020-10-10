@@ -14,6 +14,15 @@
 #include "game_ir.h"
 #include "led.h"
 
+static int led_state = 0;
+
+
+void led_flash(__unused__ void *data)
+{
+    led_state = !led_state;
+    led_set(LED1, led_state);
+}
+
 
 int main (void)
 {
@@ -24,19 +33,20 @@ int main (void)
     game_display_init();
     init_ir();
     led_init();
-    led_set(LED1, 0);
+    led_set(LED1, led_state);
 
     current_message(game_state.state);
 
     task_t tasks[] = {
+            {.func = led_flash, .period = TASK_RATE / 2},
             {.func = update_task, .period = TASK_RATE/ 250},
             {.func = nav_update, .period = TASK_RATE / 20},
             {.func = nav_push_task, .period = TASK_RATE / 20, .data = &game_state},
             {.func = select_choice, .period = TASK_RATE / 20, .data = &game_state},
             {.func = check_response, .period = TASK_RATE / 20, .data = &game_state},
-            {.func = display_result, .period = TASK_RATE / 100, .data = &game_state}
+            {.func = display_result, .period = TASK_RATE / 20, .data = &game_state}
     };
 
-    task_schedule(tasks, 6);
+    task_schedule(tasks, 7);
     return 0;
 }

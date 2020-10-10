@@ -12,7 +12,6 @@
 #include "tinygl.h"
 #include "task.h"
 
-
 // Initialise tinygl and apply preferences.
 void game_display_init(void) {
     tinygl_init (TASK_RATE/250);
@@ -35,13 +34,14 @@ void current_message(game_states_t state)
         case STATE_INIT:
             tinygl_text (STARTUP_MESSAGE); // Display startup message
             break;
-        case STATE_SEND:
+        case STATE_WAIT:
             tinygl_text (CONNECT_MESSAGE); // Display connect message
             break;
         case STATE_AGAIN:
             tinygl_text (AGAIN_MESSAGE); // Display again message
             break;
         default:
+            tinygl_clear();
             break;
     }
 }

@@ -13,6 +13,8 @@
 #include "game_ir.h"
 #include "game_display.h"
 
+static char choices[NUM_CHOICES] = {PAPER, SCISSORS, ROCK};
+
 void init_nav(void)
 {
     navswitch_init ();
@@ -56,9 +58,11 @@ void nav_push_task (void *data) {
         switch (game_state->state) {
             case STATE_INIT:
                 game_state->state = STATE_SELECTION; //Selection Screen
+                current_message(game_state->state);
                 break;
             case STATE_SELECTION:
-                game_state->state = STATE_SEND; //Send State, where fun-kit sends data
+                game_state->state = STATE_WAIT; //Waits for response from another Fun-Kit
+                current_message(game_state->state);
                 send(data);
                 break;
             case STATE_RESULT:
@@ -68,7 +72,7 @@ void nav_push_task (void *data) {
             case STATE_AGAIN: //Reset Game
                 game_state->curr_choice = 0;
                 game_state->other_choice = 0;
-                game_state->state = STATE_INIT;
+                game_state->state = STATE_SELECTION;
                 current_message(game_state->state);
                 break;
             default:

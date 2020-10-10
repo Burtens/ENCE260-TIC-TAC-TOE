@@ -13,7 +13,7 @@
 
 //Status Messages
 #define STARTUP_MESSAGE "  PAPER SCISSORS ROCK READY"
-#define CONNECT_MESSAGE "  CONNECTING"
+#define CONNECT_MESSAGE "  WAITING"
 #define AGAIN_MESSAGE "  PLAY AGAIN"
 
 //Game Messages
@@ -26,8 +26,6 @@
 #define ROCK 'R'
 
 #define NUM_CHOICES 3
-
-static char choices[NUM_CHOICES] = {PAPER, SCISSORS, ROCK};
 
 void game_display_init(void);
 
