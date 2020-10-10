@@ -63,15 +63,16 @@ void nav_push_task (void *data) {
                 break;
             case STATE_RESULT:
                 game_state->state = STATE_AGAIN;
+                current_message(game_state->state);
                 break;
             case STATE_AGAIN: //Reset Game
                 game_state->curr_choice = 0;
                 game_state->other_choice = 0;
                 game_state->state = STATE_INIT;
+                current_message(game_state->state);
                 break;
             default:
                 break;
         }
-        current_message(game_state->state);
     }
 }
