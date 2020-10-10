@@ -1,4 +1,4 @@
-**Paper Scissors Rock**
+#Paper Scissors Rock#
 
 **Authors:** Samuel Burtenshaw and Zachary Kaye
 
