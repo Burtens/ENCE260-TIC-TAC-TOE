@@ -19,7 +19,7 @@ void send(void *data)
 {
     state_t* game_state = data;
     game_state->sent = 1;
-    ir_uart_putc(choices[game_state->curr_choice]);
+    ir_uart_putc(game_state->curr_choice);
     game_state->state = STATE_WAIT;
 }
 
