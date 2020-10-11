@@ -12,7 +12,7 @@ Samuel Burtenshaw and Zachary Kaye
 1. Make sure the UCFK4 is connected to a machine and that the UCFK4 is turned on (LED2 should be on).
 2. Open the source code folder in a terminal and use the 'make program' command in the terminal.
 3. The game should be loaded onto the UCFK4 and the title screen 'Paper Scissors Rock Ready' should be displayed.
-4. Steps 1 to 3 must be performed by both players for their respective UCFK4's. 
+4. Steps 1 to 3 must be performed by both players for their respective UCFK4. 
 5. Additional Note: It is recommended to turn off the room lights as they may create infrared interference which could impact the ir-communication of the UCFK4.
 
 ## **How to Play**
