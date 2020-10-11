@@ -1,9 +1,7 @@
 /** @file   nav_tasks.h
     @author Samuel Burtenshaw, Zachary Kaye
     @date   5 October 2020
-    @brief  A simple paper, scissors, rock game.
-
-    @defgroup header file for nav_tasks.c
+    @brief  header file for nav_tasks.c
 */
 
 #ifndef GROUP_328_NAV_TASKS_H

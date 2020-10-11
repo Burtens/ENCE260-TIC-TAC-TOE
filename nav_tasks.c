@@ -1,9 +1,7 @@
 /** @file   nav_tasks.c
     @author Samuel Burtenshaw, Zachary Kaye
     @date   5 October 2020
-    @brief  A simple paper, scissors, rock game.
-
-    @defgroup File that controls the nav_switch during runtime
+    @brief  module that controls the nav_switch tasks during runtime
 */
 
 #include "system.h"
@@ -15,18 +13,20 @@
 
 static char choices[NUM_CHOICES] = {PAPER, SCISSORS, ROCK};
 
+//Initialises the navswitch
 void init_nav(void)
 {
     navswitch_init ();
 }
 
+//Updates navswitch
 void nav_update (__unused__ void *data)
 {
     navswitch_update();
 }
 
-
-/* The player is able to select between P (Paper), S (Scissors) and R (Rock).
+/*
+ * The player is able to select between P (Paper), S (Scissors) and R (Rock).
  */
 void select_choice (void *data)
 {
@@ -44,13 +44,14 @@ void select_choice (void *data)
             }
         }
 
-        display_choice (choices[game_state->curr_choice]);
+        display_char(choices[game_state->curr_choice]);
 
     }
 }
 
 /*
 * Checks for nav_switch pushes and changes state accordingly
+ * Not all states have a response when the navswitch is pushed.
 */
 void nav_push_task (void *data) {
     state_t *game_state = data;
@@ -63,15 +64,16 @@ void nav_push_task (void *data) {
             case STATE_SELECTION:
                 game_state->state = STATE_WAIT; //Waits for response from another Fun-Kit
                 current_message(game_state->state);
-                send(data);
+                send(data); //Sends choice to another fun-kit
                 break;
             case STATE_RESULT:
                 game_state->state = STATE_AGAIN;
                 current_message(game_state->state);
                 break;
-            case STATE_AGAIN: //Reset Game
-                game_state->curr_choice = 0;
-                game_state->other_choice = 0;
+            case STATE_AGAIN:
+                //Reset Game
+                game_state->curr_choice = INIT_VAL;
+                game_state->other_choice = INIT_VAL;
                 game_state->state = STATE_SELECTION;
                 current_message(game_state->state);
                 break;

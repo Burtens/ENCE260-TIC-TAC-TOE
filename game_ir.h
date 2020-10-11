@@ -1,6 +1,9 @@
-//
-// Created by sam on 7/10/20.
-//
+/** @file   nav_tasks.h
+    @author Samuel Burtenshaw, Zachary Kaye
+    @date   11 October 2020
+    @brief  header file for game_ir.c
+
+*/
 
 #ifndef GROUP_328_GAME_IR_H
 #define GROUP_328_GAME_IR_H
