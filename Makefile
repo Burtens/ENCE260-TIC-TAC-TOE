@@ -15,7 +15,7 @@ DEL = rm
 all: game.out
 
 # Compile: create object files from C source files.
-game.o: game.c game.h game_display.h game_ir.h ../../drivers/avr/system.h ../../utils/task.h
+game.o: game.c game.h game_display.h game_ir.h nav_tasks.h ../../drivers/avr/system.h ../../utils/task.h
 	$(CC) -c $(CFLAGS) $< -o $@
 
 system.o: ../../drivers/avr/system.c ../../drivers/avr/system.h 
@@ -31,9 +31,6 @@ ir_uart.o: ../../drivers/avr/ir_uart.c ../../drivers/avr/ir_uart.h ../../drivers
 	$(CC) -c $(CFLAGS) $< -o $@
 	
 font.o: ../../utils/font.c ../../drivers/avr/system.h ../../utils/font.h
-	$(CC) -c $(CFLAGS) $< -o $@
-
-pacer.o: ../../utils/pacer.c ../../drivers/avr/system.h ../../drivers/avr/timer.h ../../utils/pacer.h
 	$(CC) -c $(CFLAGS) $< -o $@
 
 pio.o: ../../drivers/avr/pio.c ../../drivers/avr/pio.h ../../drivers/avr/system.h
@@ -70,7 +67,7 @@ game_ir.o: game_ir.c game_ir.h game_display.h ../../drivers/avr/ir_uart.h ../../
 	$(CC) -c $(CFLAGS) $< -o $@
 
 # Link: create ELF output file from object files.
-game.out: game.o system.o tinygl.o navswitch.o ir_uart.o font.o pacer.o pio.o prescale.o timer.o timer0.o usart1.o display.o ledmat.o task.o game_display.o nav_tasks.o game_ir.o
+game.out: game.o system.o tinygl.o navswitch.o ir_uart.o font.o pio.o prescale.o timer.o timer0.o usart1.o display.o ledmat.o task.o game_display.o nav_tasks.o game_ir.o
 	$(CC) $(CFLAGS) $^ -o $@ -lm
 	$(SIZE) $@
 
