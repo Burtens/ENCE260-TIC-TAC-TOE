@@ -24,16 +24,15 @@ void send(void *data)
 }
 
 /* Checks if selection has been received and goes to the result state, otherwise listens for a
- * received selection from another fun-kit and saves it if it is received.
- * */
+ * received selection from another fun-kit and saves it if it is received. */
 void check_response(void *data)
 {
     state_t* game_state = data;
 
     if (game_state->sent && game_state->received) {
         game_state->state = STATE_RESULT;
-        /*Resets the received and sent values for next game. Set here in an attempt to stop game from breaking if
-         * other player continues on to next game and sends before this fun-kit has started another game*/
+        /* Resets the received and sent values for next game. Set here in an attempt to stop game from breaking if
+         * other player continues on to next game and sends before this fun-kit has started another game */
         game_state->received = INIT_VAL;
         game_state->sent = INIT_VAL;
     } else if (ir_uart_read_ready_p()) {
