@@ -15,7 +15,7 @@ void init_ir(void)
     ir_uart_init();
 }
 
-//Sends the selected choice and sets state to wait for ACK response
+// Sends the selected choice and sets state to wait for ACK response
 void send(void *data)
 {
     state_t* game_state = data;

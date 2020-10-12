@@ -14,19 +14,19 @@
 // Array allows char to be displayed on screen based the value of the users choice
 static char choices[NUM_CHOICES] = {PAPER, SCISSORS, ROCK};
 
-//Initialises the navswitch
+// Initialises the navswitch
 void init_nav(void)
 {
     navswitch_init ();
 }
 
-//Updates navswitch
+// Updates navswitch
 void nav_update (__unused__ void *data)
 {
     navswitch_update();
 }
 
-//Allows the player to select between P (Paper), S (Scissors) and R (Rock) using navswitch.
+// Allows the player to select between P (Paper), S (Scissors) and R (Rock) using navswitch.
 void select_choice (void *data)
 {
     state_t* game_state = data;

@@ -44,7 +44,7 @@ void current_message(game_states_t state)
     }
 }
 
-/* Checks whether the player won, lost or drew. */
+// Checks whether the player won, lost or drew.
 void display_result (void *data) 
 {
     state_t *game_state = data;

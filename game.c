@@ -11,6 +11,7 @@
 #include "nav_tasks.h"
 #include "game_ir.h"
 
+// Main function for game
 int main (void)
 {
     //Initialise the state of the game
