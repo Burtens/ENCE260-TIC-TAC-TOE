@@ -42,9 +42,7 @@ void select_choice (void *data)
                 game_state->curr_choice = (game_state->curr_choice - 1) % NUM_CHOICES; // Wrap around
             }
         }
-
         display_char(choices[game_state->curr_choice]);
-
     }
 }
 
