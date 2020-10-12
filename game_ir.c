@@ -15,7 +15,6 @@ void init_ir(void)
     ir_uart_init();
 }
 
-
 //Sends the selected choice and sets state to wait for ACK response
 void send(void *data)
 {
@@ -23,7 +22,6 @@ void send(void *data)
     game_state->sent = 1; // Has sent
     ir_uart_putc(game_state->curr_choice); // Sends choice to another fun-kit
 }
-
 
 /* Checks if selection has been received and goes to the result state, otherwise listens for a
  * received selection from another fun-kit and saves it if it is received.

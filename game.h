@@ -21,8 +21,13 @@
 #define ROCK_CHOICE 2
 
 //Enum of all states in the game
-typedef enum {STATE_INIT, STATE_SELECTION, STATE_WAIT,
-    STATE_RESULT, STATE_AGAIN} game_states_t;
+typedef enum {
+    STATE_INIT, // Initial State
+    STATE_SELECTION, // State where user is selecting a choice
+    STATE_WAIT, // State where user is waiting for a response
+    STATE_RESULT, // State where result is shown
+    STATE_AGAIN // State where user is asked if they want to play again.
+    } game_states_t;
 
 //Definition of the game_state struct that stores the state of the game
 typedef struct game_state_struct

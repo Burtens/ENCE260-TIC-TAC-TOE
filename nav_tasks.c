@@ -11,6 +11,7 @@
 #include "game_ir.h"
 #include "game_display.h"
 
+// Array allows char to be displayed on screen based the value of the users choice
 static char choices[NUM_CHOICES] = {PAPER, SCISSORS, ROCK};
 
 //Initialises the navswitch
@@ -25,9 +26,7 @@ void nav_update (__unused__ void *data)
     navswitch_update();
 }
 
-/*
- * The player is able to select between P (Paper), S (Scissors) and R (Rock).
- */
+//Allows the player to select between P (Paper), S (Scissors) and R (Rock) using navswitch.
 void select_choice (void *data)
 {
     state_t* game_state = data;
@@ -51,18 +50,20 @@ void select_choice (void *data)
 
 /*
 * Checks for nav_switch pushes and changes state accordingly
- * Not all states have a response when the navswitch is pushed.
+* Not all states have a response when the navswitch is pushed.
 */
-void nav_push_task (void *data) {
+void nav_push_task (void *data)
+{
     state_t *game_state = data;
+
     if (navswitch_push_event_p(NAVSWITCH_PUSH)) {
         switch (game_state->state) {
             case STATE_INIT:
-                game_state->state = STATE_SELECTION; //Selection Screen
+                game_state->state = STATE_SELECTION;
                 current_message(game_state->state);
                 break;
             case STATE_SELECTION:
-                game_state->state = STATE_WAIT; //Waits for response from another Fun-Kit
+                game_state->state = STATE_WAIT;
                 current_message(game_state->state);
                 send(data); //Sends choice to another fun-kit
                 break;

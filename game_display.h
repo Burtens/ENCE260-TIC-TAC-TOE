@@ -9,17 +9,18 @@
 
 #include "game.h" // Included here as the definitions for update_display and current_message require values from game.h
 
-//Status Messages
+// Status Messages
 #define STARTUP_MESSAGE "  PAPER SCISSORS ROCK READY"
 #define WAIT_MESSAGE "  WAITING"
 #define AGAIN_MESSAGE "  PLAY AGAIN"
 
-//Result Chars
+// Result Chars
 #define DRAW 'D'
 #define WIN 'W'
 #define LOSS 'L'
 #define UNKNOWN '?'
 
+// How many words are displayed persecond on the screen
 #define TEXT_SPEED 7
 
 void game_display_init(void);

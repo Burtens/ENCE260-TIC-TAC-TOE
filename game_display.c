@@ -67,7 +67,6 @@ void display_result (void *data)
     }
 }
 
-
 // Method to display a char on the fun-kit display
 void display_char (char char_to_disp)
 {
