@@ -13,7 +13,6 @@
 
 int main (void)
 {
-
     //Initialise the state of the game
     state_t game_state = {STATE_INIT, INIT_VAL, INIT_VAL, INIT_VAL, INIT_VAL};
 
