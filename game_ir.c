@@ -36,7 +36,6 @@ void check_response(void *data)
         game_state->state = STATE_RESULT;
         /*Resets the received and sent values for next game. Set here in an attempt to stop game from breaking if
          * other player continues on to next game and sends before this fun-kit has started another game*/
-        // TODO pretty sure this didnt help so could put it with the other reset stuff in nav_tasks
         game_state->received = INIT_VAL;
         game_state->sent = INIT_VAL;
     } else if (ir_uart_read_ready_p()) {
