@@ -11,7 +11,8 @@
 #include "task.h"
 
 // Initialise tinygl and apply preferences.
-void game_display_init(void) {
+void game_display_init(void) 
+{
     tinygl_init (TASK_RATE / DISPLAY_RATE);
     tinygl_font_set (&font5x7_1);
     tinygl_text_speed_set (TEXT_SPEED);
@@ -27,7 +28,6 @@ void update_display(__unused__ void *data)
 // Changes the display to print a specific message based on current state
 void current_message(game_states_t state)
 {
-
     switch (state) {
         case STATE_INIT:
             tinygl_text (STARTUP_MESSAGE); // Display startup message
@@ -45,12 +45,11 @@ void current_message(game_states_t state)
 }
 
 /* Checks whether the player won, lost or drew. */
-void display_result (void *data) {
+void display_result (void *data) 
+{
     state_t *game_state = data;
     uint8_t your_choice = game_state->curr_choice;
     uint8_t opp_choice = game_state->other_choice;
-
-
 
     //Based on the result displays a char
     if (game_state->state == STATE_RESULT) {
