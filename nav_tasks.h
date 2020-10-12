@@ -7,6 +7,11 @@
 #ifndef GROUP_328_NAV_TASKS_H
 #define GROUP_328_NAV_TASKS_H
 
+//Player Choices
+#define PAPER 'P'
+#define SCISSORS 'S'
+#define ROCK 'R'
+
 void init_nav(void);
 
 void nav_update (__unused__ void *data);

@@ -18,11 +18,7 @@
 #define DRAW 'D'
 #define WIN 'W'
 #define LOSS 'L'
-
-//Player Choices
-#define PAPER 'P'
-#define SCISSORS 'S'
-#define ROCK 'R'
+#define UNKNOWN '?'
 
 #define TEXT_SPEED 7
 

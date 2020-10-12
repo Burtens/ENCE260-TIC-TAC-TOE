@@ -50,9 +50,13 @@ void display_result (void *data) {
     uint8_t your_choice = game_state->curr_choice;
     uint8_t opp_choice = game_state->other_choice;
 
+
+
     //Based on the result displays a char
     if (game_state->state == STATE_RESULT) {
-        if (your_choice == opp_choice) {
+        if (opp_choice != PAPER_CHOICE && opp_choice != SCISSOR_CHOICE && opp_choice != ROCK_CHOICE) {
+            display_char(UNKNOWN);
+        } else if  (your_choice == opp_choice) {
             display_char(DRAW);
         } else if ((your_choice == ROCK_CHOICE && opp_choice == SCISSOR_CHOICE) ||
                    (your_choice == SCISSOR_CHOICE && opp_choice ==  PAPER_CHOICE) ||
