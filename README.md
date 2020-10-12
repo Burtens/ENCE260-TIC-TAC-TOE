@@ -22,7 +22,7 @@ Samuel Burtenshaw and Zachary Kaye
 3. Before the user selects their choice they must ensure their opponent's UCFK4 is on and running the Paper Scissors Rock game. Otherwise, the user's choice is not received by their opponent.
 4. Pressing the navswitch push-button confirms the desired choice. 
 5. If the opponent has not confirmed their choice then a waiting message will be displayed.
-6. Once the opponent has selected their choice, the game will determine the result of the game and display the result (Win 'W', Draw 'D', and Loss 'L').
+6. Once the opponent has selected their choice, the game will determine the result of the game and display the result (Win 'W', Draw 'D', and Loss 'L'). If the char '?' is displayed the fun-kit recieved an unknown response, if this occurs you can press the navswitch to play again.
 7. Pressing the navswitch push-button will display the 'Play Again' message. Another press of the naviswitch push button will take the user back to the selection screen.
 
 
